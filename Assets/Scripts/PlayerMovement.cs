@@ -6,8 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     private float horizontal;
     private float vertical;
-    public float speed = 4f;
-    public float dashPower = 6f;
+    public float speed = 8f;
+    public float dashPower = 30f;
     public float dashTime = 0.2f;
     private float dashCooldown;
 
@@ -53,14 +53,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector2 movement = new Vector2(horizontal, vertical);
+
         if (isDashing)
         {
-            rb.velocity = new Vector3(horizontal * dashPower, vertical * dashPower);
+            rb.velocity = movement.normalized * dashPower;
             dashTime -= Time.fixedDeltaTime;
             if (dashTime <= 0)
             {
                 isDashing = false;
-                rb.velocity = new Vector3(horizontal, vertical);
+                rb.velocity = Vector2.zero;
             }
         }
         else if (isDodging)
@@ -78,9 +80,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            rb.velocity = new Vector3(horizontal, vertical);
+            rb.velocity = movement.normalized * speed;
         }
     }
+
 
     private void StartDash()
     {
