@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal;
     private float vertical;
     public float speed = 8f;
-    public float dashPower = 30f;
+    public float dashPower = 20f;
     public float dashTime = 0.2f;
     private float dashCooldown;
 
@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     private Collider2D playerCollider;
 
     private bool isDashing;
+    private bool stealth;
+    public float stealthSpeedMultiplier = 0.5f;
 
     void Start()
     {
@@ -28,17 +30,25 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal") * speed;
-        vertical = Input.GetAxisRaw("Vertical") * speed;
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
 
         if (Input.GetKeyDown(KeyCode.Space) && dashCooldown <= 0)
         {
             StartDash();
         }
-
         if (Input.GetKeyDown(KeyCode.X) && dodgeCooldown <= 0)
         {
             StartDodge();
+        }
+
+        if (Input.GetKey(KeyCode.C))
+        {
+            stealth = true;
+        }
+        else
+        {
+            stealth = false;
         }
 
         if (dashCooldown > 0)
@@ -53,11 +63,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 movement = new Vector2(horizontal, vertical);
+        Vector2 movement = new Vector2(horizontal, vertical).normalized;
+
 
         if (isDashing)
         {
-            rb.velocity = movement.normalized * dashPower;
+            rb.velocity = movement * dashPower;
             dashTime -= Time.fixedDeltaTime;
             if (dashTime <= 0)
             {
@@ -65,25 +76,32 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = Vector2.zero;
             }
         }
+
         else if (isDodging)
         {
             float rotationAmount = rotationSpeed * Time.fixedDeltaTime;
             transform.Rotate(rotationAmount, 0, 0);
 
-            dodgeTime -= Time.deltaTime;
+            dodgeTime -= Time.fixedDeltaTime;
             if (dodgeTime <= 0)
             {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
                 isDodging = false;
                 playerCollider.enabled = true;
             }
         }
+
         else
         {
-            rb.velocity = movement.normalized * speed;
+            float currentSpeed = stealth ? speed * stealthSpeedMultiplier : speed;
+            rb.velocity = movement * currentSpeed;
+
+            if (movement != Vector2.zero)
+            {
+                float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+            }
         }
     }
-
 
     private void StartDash()
     {
@@ -99,6 +117,5 @@ public class PlayerMovement : MonoBehaviour
         dodgeCooldown = 10.0f;
         rb.velocity = Vector2.zero;
         playerCollider.enabled = false;
-
     }
 }
