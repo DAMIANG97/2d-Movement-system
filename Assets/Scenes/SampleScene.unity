@@ -523,9 +523,9 @@ GameObject:
   - component: {fileID: 1282420510}
   - component: {fileID: 1282420509}
   - component: {fileID: 1282420508}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square (1)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -562,7 +562,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.28858203}
+  m_Offset: {x: 0, y: 0.0029931366}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -573,7 +573,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.42283592}
+  m_Size: {x: 1, y: 1.0059862}
   m_EdgeRadius: 0
 --- !u!212 &1282420509
 SpriteRenderer:
@@ -617,7 +617,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.44855833, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.110657394, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -653,9 +653,9 @@ GameObject:
   - component: {fileID: 1404891549}
   - component: {fileID: 1404891548}
   - component: {fileID: 1404891547}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -692,7 +692,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.28858203}
+  m_Offset: {x: 0, y: -0.0028775036}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -703,7 +703,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.42283592}
+  m_Size: {x: 1, y: 0.994245}
   m_EdgeRadius: 0
 --- !u!212 &1404891548
 SpriteRenderer:
@@ -747,7 +747,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.44855833, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.110657394, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1131,6 +1131,7 @@ GameObject:
   - component: {fileID: 6786471105588509519}
   - component: {fileID: 5551726259351720641}
   - component: {fileID: 445221178043342731}
+  - component: {fileID: 6786471105588509520}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1249,6 +1250,21 @@ MonoBehaviour:
   dashTime: 0.2
   rb: {fileID: 5551726259351720641}
   stealthSpeedMultiplier: 0.5
+--- !u!114 &6786471105588509520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4757891910629880301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74cec7a49d2986d4e980c713b40e643c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attractionSpeed: 5
+  dashDistance: 5
+  selectionRange: 5
 --- !u!4 &7281448547145055537
 Transform:
   m_ObjectHideFlags: 0
@@ -1372,7 +1388,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.44855833, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.110657394, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

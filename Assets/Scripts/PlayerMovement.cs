@@ -33,14 +33,29 @@ public class PlayerMovement : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.Space) && dashCooldown <= 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartDash();
+            if (dashCooldown <= 0)
+            {
+                StartDash();
+            }
+            else
+            {
+                Cooldowns.cooldowns(dashCooldown, "Dash");
+            }
         }
-        if (Input.GetKeyDown(KeyCode.X) && dodgeCooldown <= 0)
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            StartDodge();
+            if (dodgeCooldown <= 0)
+            {
+                StartDodge();
+            }
+            else
+            {
+                Cooldowns.cooldowns(dodgeCooldown, "Dodge");
+            }
         }
+
 
         if (Input.GetKey(KeyCode.C))
         {
