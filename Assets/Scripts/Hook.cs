@@ -1,14 +1,15 @@
-using System.Collections;
 using UnityEngine;
+
 public class AttractToEnemy : MonoBehaviour
 {
     private GameObject targetObject;
     private float attractionSpeed = 30f;
-    private float dashDistance = 10f;
-    private float maxRange = 12f;
+    private float dashDistance = 8f;
+    private float maxRange = 8f;
 
     private float cooldown;
     private bool isDashing = false;
+    private bool isHooking = false;
     private Vector2 dashPosition;
 
     void Update()
@@ -30,38 +31,66 @@ public class AttractToEnemy : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            if (cooldown <= 0)
+            if (cooldown <= 0 && targetObject != null)
             {
-                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-                if (hit.collider != null && hit.collider.gameObject == targetObject)
+                float distanceToEnemy = Vector2.Distance(transform.position, targetObject.transform.position);
+                if (distanceToEnemy <= maxRange)
                 {
-                    float distanceToEnemy = Vector2.Distance(transform.position, hit.collider.transform.position);
-                    if (distanceToEnemy <= maxRange)
-                    {
-                        if (distanceToEnemy < dashDistance)
-                        {
-                            dashDistance = distanceToEnemy;
-                        }
-                        if (distanceToEnemy <= 4f)
-                        {
-                            Debug.LogWarning("you are to close");
-                            dashDistance = 10f;
-                        }
-                        else
-                        {
-                            StartDashing(targetObject);
-                        }
-                    }
+                    StartHooking(targetObject);
+                }
+
+                else
+                {
+                    Debug.Log("Out of Range");
                 }
             }
+
             if (cooldown > 0)
             {
-                Cooldowns.cooldowns(cooldown, "Dash to enemy");
+                Cooldowns.cooldowns(cooldown, "Hook");
             }
         }
 
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (cooldown <= 0 && targetObject != null)
+            {
+                float distanceToEnemy = Vector2.Distance(transform.position, targetObject.transform.position);
+                if (distanceToEnemy <= maxRange)
+                {
+                    if (distanceToEnemy < dashDistance)
+                    {
+                        dashDistance = distanceToEnemy;
+                    }
+
+                    if (distanceToEnemy <= 4f)
+                    {
+                        Debug.LogWarning("You are too close.");
+                        dashDistance = 10f;
+                    }
+                    else
+                    {
+                        StartDashing(targetObject);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Out of Range");
+                }
+            }
+        }
+
+        if (isHooking)
+        {
+            targetObject.transform.position = Vector2.MoveTowards(targetObject.transform.position, transform.position, attractionSpeed * Time.deltaTime);
+            if (Vector2.Distance(targetObject.transform.position, transform.position) < 2f)
+            {
+                isHooking = false;
+                targetObject = null;
+            }
+        }
 
         if (isDashing)
         {
@@ -77,17 +106,34 @@ public class AttractToEnemy : MonoBehaviour
 
     private void StartDashing(GameObject obj)
     {
-        cooldown = 5f;
+        cooldown = 2f;
         dashPosition = transform.position + ((obj.transform.position - transform.position).normalized * dashDistance);
         isDashing = true;
     }
+
+    private void StartHooking(GameObject obj)
+    {
+        cooldown = 2f;
+        isHooking = true;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isDashing)
+        if (isDashing || isHooking)
         {
             isDashing = false;
+            isHooking = false;
             targetObject = null;
-            dashDistance = 10f;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (isDashing || isHooking)
+        {
+            isDashing = false;
+            isHooking = false;
+            targetObject = null;
         }
     }
 }

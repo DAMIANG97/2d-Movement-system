@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -7,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal;
     private float vertical;
     public float speed = 8f;
-    public float dashPower = 20f;
+    public float dashPower = 30f;
     public float dashTime = 0.2f;
     private float dashCooldown;
 
@@ -33,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (dashCooldown <= 0)
@@ -44,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
                 Cooldowns.cooldowns(dashCooldown, "Dash");
             }
         }
+
         if (Input.GetKeyDown(KeyCode.X))
         {
             if (dodgeCooldown <= 0)
@@ -65,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
         {
             stealth = false;
         }
+
 
         if (dashCooldown > 0)
         {
@@ -129,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isDodging = true;
         dodgeTime = 1f;
-        dodgeCooldown = 10.0f;
+        dodgeCooldown = 2f;
         rb.velocity = Vector2.zero;
         playerCollider.enabled = false;
     }
