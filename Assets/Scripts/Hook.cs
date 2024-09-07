@@ -5,7 +5,7 @@ public class AttractToEnemy : MonoBehaviour
     private GameObject targetObject;
     private float attractionSpeed = 30f;
     private float dashDistance = 8f;
-    private float maxRange = 8f;
+    private float maxRange = 10f;
 
     private float cooldown;
     private bool isDashing = false;
@@ -67,7 +67,7 @@ public class AttractToEnemy : MonoBehaviour
 
                     if (distanceToEnemy <= 4f)
                     {
-                        Debug.LogWarning("You are too close.");
+                        Debug.Log("You are too close.");
                         dashDistance = 10f;
                     }
                     else
@@ -119,7 +119,7 @@ public class AttractToEnemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isDashing || isHooking)
+        if (isDashing)
         {
             isDashing = false;
             isHooking = false;
@@ -129,7 +129,7 @@ public class AttractToEnemy : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (isDashing || isHooking)
+        if (isDashing)
         {
             isDashing = false;
             isHooking = false;
